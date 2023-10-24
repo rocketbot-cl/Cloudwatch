@@ -4,7 +4,7 @@ Módulo para conectarse a AWS Cloudwatch
 
 *Read this in other languages: [English](Manual_Cloudwatch.md), [Português](Manual_Cloudwatch.pr.md), [Español](Manual_Cloudwatch.es.md)*
   
-![banner](imgs/Banner_Cloudwatch.png o jpg)
+![banner](imgs/Banner_Cloudwatch.jpg)
 ## Como instalar este módulo
   
 Para instalar el módulo en Rocketbot Studio, se puede hacer de dos formas:
