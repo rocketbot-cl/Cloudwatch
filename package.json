@@ -7,7 +7,7 @@
     "pr": "Módulo para conexão com o AWS Cloudwatch"
   },
   "disclaimer": "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "homepage": "http://rocketbot.com",
   "linux": false,
@@ -79,6 +79,25 @@
               "pr": "Chave secreta da conta AWS"
             },
             "id": "secret_key",
+            "css": "col-md-6",
+            "data_type": "str",
+            "default": null,
+            "required": true
+          },
+          {
+            "type": "input",
+            "placeholder": "FQoGZXIvYXdzENj//////////wEaDGVqRXhhbXBsZVRva2Vu",
+            "title": {
+              "es": "Token de Sesión (Opcional)",
+              "en": "Session Token (Optional)",
+              "pr": "Token de sessão (Opcional)"
+            },
+            "description": {
+              "es": "Token de sesión de la cuenta de AWS",
+              "en": "AWS account session token",
+              "pr": "Token de sessão da conta AWS"
+            },
+            "id": "session_token",
             "css": "col-md-6",
             "data_type": "str",
             "default": null,

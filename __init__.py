@@ -83,11 +83,12 @@ try:
     if module == "connect":
         awsAccessKeyId = GetParams("access_id")
         awsSecretAccessKey = GetParams("secret_key")
+        awsSessionToken = GetParams("session_token")
         region = GetParams("region") or "us-east-1"
         result = GetParams('result')
 
         try:
-            mod_cloudwatch_session = LogsObject(awsAccessKeyId, awsSecretAccessKey, region)
+            mod_cloudwatch_session = LogsObject(awsAccessKeyId, awsSecretAccessKey, region, awsSessionToken)
             # The method is called to know if the connection is established or not
             mod_cloudwatch_session.getAccountPolicies()
             

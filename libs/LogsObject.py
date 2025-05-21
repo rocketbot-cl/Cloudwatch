@@ -2,13 +2,21 @@ import boto3
 import os
 
 class LogsObject:
-    def __init__(self, awsAccessKeyId, awsSecretAccessKey, region):
+    def __init__(self, awsAccessKeyId, awsSecretAccessKey, region, awsSessionToken=None):
         self.client = boto3.client(
             'logs',
             region_name=region,
             aws_access_key_id=awsAccessKeyId, 
             aws_secret_access_key=awsSecretAccessKey
         )
+        if awsSessionToken:
+            self.client = boto3.client(
+                'logs',
+                region_name=region,
+                aws_access_key_id=awsAccessKeyId, 
+                aws_secret_access_key=awsSecretAccessKey,
+                aws_session_token=awsSessionToken
+            )
 
     # Function to know if the connection is established or not
     def getAccountPolicies(self):
