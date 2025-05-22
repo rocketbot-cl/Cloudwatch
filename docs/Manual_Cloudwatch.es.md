@@ -1,3 +1,7 @@
+
+
+
+
 # Cloudwatch
   
 Módulo para conectarse a AWS Cloudwatch  
@@ -21,6 +25,7 @@ Este comando permite conectarse a tu cuenta de AWS, para ello necesitas tu Acces
 | --- | --- | --- |
 |Access Key ID|Identificador de la cuenta de AWS|IKAMLSURT6HYUHRY48EF|
 |Secret Access Key|Clave secreta de la cuenta de AWS|JYFifnrufd2pGHJ2illrZMVnhwxQnHSY5JK6JdhCtu|
+|Token de Sesión (Opcional)|Token de sesión de la cuenta de AWS|FQoGZXIvYXdzENj//////////wEaDGVqRXhhbXBsZVRva2Vu|
 |Region|Region de AWS|us-east-1|
 |Asignar resultado a Variable|Variable donde se almacenara el estado de la conexion, devuelve True si es exitosa o False en el caso contrario|Variable|
 
