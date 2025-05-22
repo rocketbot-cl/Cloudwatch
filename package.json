@@ -100,8 +100,7 @@
             "id": "session_token",
             "css": "col-md-6",
             "data_type": "str",
-            "default": null,
-            "required": true
+            "default": null
           },
           {
             "type": "input",
