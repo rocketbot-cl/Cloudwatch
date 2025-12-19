@@ -88,3 +88,12 @@ Este comando permite obtener eventos de un flujo de log en Cloudwatch. Debe tene
 |Nombre del grupo de log|Nombre del grupo de log donde se encuentra el flujo.|log_group_name|
 |Nombre del flujo de log|Nombre del flujo de log que se desea obtener los eventos.|log_stream_name|
 |Asignar resultado a Variable|Variable donde se almacenara el resultado, retorna un diccionario con los eventos del flujo de log si se ejecuta correctamente o False caso contrario.|Variable|
+
+### Obtener flujos de registro
+  
+Recupera una lista de flujos de registro para un grupo  in CloudWatch Logs. Permite filtrar los resultados por un prefijo de flujo de registro. Requiere permiso IAM: "logs:DescribeLogStreams".
+|Parámetros|Descripción|ejemplo|
+| --- | --- | --- |
+|Nombre del grupo de log|Nombre del grupo de log donde se encuentra el flujo.|log_group_name|
+|Prefijo del Flujo de Logs|Prefijo para filtrar los flujos de registro. Sólo se devolverán los flujos que comiencen con este valor.|log_stream_prefix|
+|Asignar resultado a Variable|Variable donde se almacenara el resultado, retorna un diccionario con los eventos del flujo de log si se ejecuta correctamente o False caso contrario.|Variable|

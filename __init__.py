@@ -35,6 +35,8 @@ if cur_path not in sys.path:
 
 import boto3
 from LogsObject import LogsObject
+from botocore.exceptions import ClientError
+
 global mod_cloudwatch_session
 
 try:
@@ -79,157 +81,195 @@ def parse_rocketbot_logs(file_path):
 """
 module = GetParams("module")
 
-try:
-    if module == "connect":
-        awsAccessKeyId = GetParams("access_id")
-        awsSecretAccessKey = GetParams("secret_key")
-        awsSessionToken = GetParams("session_token")
-        region = GetParams("region") or "us-east-1"
-        result = GetParams('result')
 
-        try:
-            mod_cloudwatch_session = LogsObject(awsAccessKeyId, awsSecretAccessKey, region, awsSessionToken)
-            # The method is called to know if the connection is established or not
-            mod_cloudwatch_session.getAccountPolicies()
-            
-            if result:
-                SetVar(result, True)
+if module == "connect":
+    awsAccessKeyId = GetParams("access_id")
+    awsSecretAccessKey = GetParams("secret_key")
+    awsSessionToken = GetParams("session_token")
+    region = GetParams("region") or "us-east-1"
+    result = GetParams('result')
 
-        except Exception as e:
-            mod_cloudwatch_session = None
-            if result:
-                SetVar(result, False)
-            raise e
+    try:
+        mod_cloudwatch_session = LogsObject(awsAccessKeyId, awsSecretAccessKey, region, awsSessionToken)
+        # The method is called to know if the connection is established or not
+        mod_cloudwatch_session.getAccountPolicies()
+        
+        if result:
+            SetVar(result, True)
 
-    else:
-        if not mod_cloudwatch_session:
-            raise Exception("You must connect to AWS first")
+    except Exception as e:
+        mod_cloudwatch_session = None
+        if result:
+            SetVar(result, False)
+        raise e
 
-    if module == "create_log_group":
-        name = GetParams("name")
-        result = GetParams('result')
+else:
+    if not mod_cloudwatch_session:
+        raise Exception("You must connect to AWS first")
 
-        try:
-            response = mod_cloudwatch_session.createLogGroup(name)
-            print(response)
+if module == "create_log_group":
+    name = GetParams("name")
+    result = GetParams('result')
 
-            if result:
-                SetVar(result, True)
+    try:
+        response = mod_cloudwatch_session.createLogGroup(name)
+        print(response)
 
-        except Exception as e:
-            if result:
-                SetVar(result, False)
-            raise e
+        if result:
+            SetVar(result, True)
 
-    if module == "delete_log_group":
-        name = GetParams("name")
-        result = GetParams('result')
+    except Exception as e:
+        if result:
+            SetVar(result, False)
+        raise e
 
-        try:
-            response = mod_cloudwatch_session.deleteLogGroup(name)
-            print(response)
+if module == "delete_log_group":
+    name = GetParams("name")
+    result = GetParams('result')
 
-            if result:
-                SetVar(result, True)
+    try:
+        response = mod_cloudwatch_session.deleteLogGroup(name)
+        print(response)
 
-        except Exception as e:
-            if result:
-                SetVar(result, False)
-            raise e
+        if result:
+            SetVar(result, True)
 
-    if module == "create_log_stream":
-        logGroupName = GetParams("log_group_name")
-        logStreamName = GetParams("log_stream_name")
-        result = GetParams('result')
+    except Exception as e:
+        if result:
+            SetVar(result, False)
+        raise e
 
-        try:
-            response = mod_cloudwatch_session.createLogStream(logGroupName, logStreamName)
-            print(response)
+if module == "create_log_stream":
+    logGroupName = GetParams("log_group_name")
+    logStreamName = GetParams("log_stream_name")
+    result = GetParams('result')
 
-            if result:
-                SetVar(result, True)
+    try:
+        response = mod_cloudwatch_session.createLogStream(logGroupName, logStreamName)
+        print(response)
 
-        except Exception as e:
-            if result:
-                SetVar(result, False)
-            raise e
+        if result:
+            SetVar(result, True)
 
-    if module == "delete_log_stream":
-        logGroupName = GetParams("log_group_name")
-        logStreamName = GetParams("log_stream_name")
-        result = GetParams('result')
+    except Exception as e:
+        if result:
+            SetVar(result, False)
+        raise e
 
-        try:
-            response = mod_cloudwatch_session.deleteLogStream(logGroupName, logStreamName)
-            print(response)
+if module == "delete_log_stream":
+    logGroupName = GetParams("log_group_name")
+    logStreamName = GetParams("log_stream_name")
+    result = GetParams('result')
 
-            if result:
-                SetVar(result, True)
+    try:
+        response = mod_cloudwatch_session.deleteLogStream(logGroupName, logStreamName)
+        print(response)
 
-        except Exception as e:
-            if result:
-                SetVar(result, False)
-            raise e
+        if result:
+            SetVar(result, True)
 
-    if module == "put_log_events":
-        logGroupName = GetParams("log_group_name")
-        logStreamName = GetParams("log_stream_name")
-        logEvents = GetParams("log_events")
-        rocketbot_log = GetParams("rocketbot_log")
-        result = GetParams('result')
+    except Exception as e:
+        if result:
+            SetVar(result, False)
+        raise e
 
-        try:
-            
-            if rocketbot_log:
-                logEvents = parse_rocketbot_logs(rocketbot_log)
-            else:
-                logEvents = eval(logEvents)
-            response = mod_cloudwatch_session.putLogEvents(logGroupName, logStreamName, logEvents)
+if module == "put_log_events":
+    logGroupName = GetParams("log_group_name")
+    logStreamName = GetParams("log_stream_name")
+    logEvents = GetParams("log_events")
+    rocketbot_log = GetParams("rocketbot_log")
+    result = GetParams('result')
 
-            if result:
-                SetVar(result, True)
+    try:
+        
+        if rocketbot_log:
+            logEvents = parse_rocketbot_logs(rocketbot_log)
+        else:
+            logEvents = eval(logEvents)
+        response = mod_cloudwatch_session.putLogEvents(logGroupName, logStreamName, logEvents)
+        
 
-        except Exception as e:
-            if result:
-                SetVar(result, False)
-            raise e
+        rejected = (response or {}).get('rejectedLogEventsInfo')
+        ok = not rejected or all(v is None for v in rejected.values())
 
-    if module == "get_log_events":
-        logGroupName = GetParams("log_group_name")
-        logStreamName = GetParams("log_stream_name")
-        result = GetParams('result')
+        if result:
+            SetVar(result, ok)
 
-        try:
-            response = mod_cloudwatch_session.getLogEvents(logGroupName, logStreamName)
-            print(response)
+        if not ok:
+            raise Exception(f"CloudWatch rechazó eventos: {rejected}; nextSequenceToken={response.get('nextSequenceToken')}")
+    except Exception as e:
+        if result:
+            SetVar(result, False)
+        raise e
 
-            if result:
-                SetVar(result, response.get('events', []))
+if module == "get_log_events":
+    logGroupName = GetParams("log_group_name")
+    logStreamName = GetParams("log_stream_name")
+    result = GetParams('result')
 
-        except Exception as e:
-            if result:
-                SetVar(result, False)
-            raise e
+    try:
+        response = mod_cloudwatch_session.getLogEvents(logGroupName, logStreamName)
+        print(response)
 
-    if module == "filter_log_events":
-        logGroupName = GetParams("log_group_name")
-        logStreamName = GetParams("log_stream_name")
-        filterPattern = GetParams("filter_pattern")
-        result = GetParams('result')
-
-        try:
-            response = mod_cloudwatch_session.filterLogEvents(logGroupName, logStreamName, filterPattern)
-            print(response)
-
-            if result:
-                SetVar(result, response.get('events', []))
-
-        except Exception as e:
+        if result:
+            SetVar(result, response.get('events', []))
+    except ClientError as e:
+        code = (e.response.get("Error", {}) or {}).get("Code", "")
+        if code == "ResourceNotFoundException":
             if result:
                 SetVar(result, False)
-            raise e
+        else:
+            if result:
+                SetVar(result, False)
+            raise
+    except Exception:
+        if result:
+            SetVar(result, False)
+        raise
+    
+if module == "filter_log_events":
+    logGroupName = GetParams("log_group_name")
+    logStreamName = GetParams("log_stream_name")
+    filterPattern = GetParams("filter_pattern")
+    result = GetParams('result')
 
-except Exception as e:
-    traceback.print_exc()
-    PrintException()
-    raise e
+    try:
+        response = mod_cloudwatch_session.filterLogEvents(logGroupName, logStreamName, filterPattern)
+        print(response)
+
+        if result:
+            SetVar(result, response.get('events', []))
+
+    except Exception as e:
+        if result:
+            SetVar(result, False)
+        raise e
+    
+if module == "get_log_streams":
+    logGroupName = GetParams("log_group_name")
+    logStreamPrefix = GetParams("log_stream_prefix")
+    result = GetParams('result')
+
+    try:
+        response = mod_cloudwatch_session.describeLogStreams(
+            logGroupName,
+            logStreamPrefix
+        )
+        print(response)
+
+        if result:
+            SetVar(result, response.get('logStreams', []))
+
+    except ClientError as e:
+        code = (e.response.get("Error", {}) or {}).get("Code", "")
+        if code == "ResourceNotFoundException":
+            if result:
+                SetVar(result, False)
+        else:
+            if result:
+                SetVar(result, False)
+            raise
+
+
+
+

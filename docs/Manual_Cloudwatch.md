@@ -88,3 +88,12 @@ This command allows you to get log events from a log stream in Cloudwatch. You m
 |Log group name|Name of the log group where the stream is located.|log_group_name|
 |Log stream name|Name of the log stream that you want to get the events.|log_stream_name|
 |Assign result to a Variable|Variable where the result will be stored, returns a dictionary with the events of the log stream if executed correctly or False otherwise.|Variable|
+
+### Get log streams
+  
+Retrieves a list of log streams for a group in CloudWatch Logs. Allows filtering results by a log stream prefix. Requires IAM permission: "logs:DescribeLogStreams".
+|Parameters|Description|example|
+| --- | --- | --- |
+|Log group name|Name of the log group where the stream is located.|log_group_name|
+|Log Stream Prefix|Prefix to filter log streams. Only streams that begin with this value will be returned..|log_stream_prefix|
+|Assign result to a Variable|Variable where the result will be stored, returns a dictionary with the events of the log stream if executed correctly or False otherwise.|Variable|
