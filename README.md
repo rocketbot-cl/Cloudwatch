@@ -37,7 +37,10 @@ This command allows you to delete a log stream in Cloudwatch. You must have the 
 This command allows you to load log events into a log stream in Cloudwatch. You must have IAM permission: "logs:PutLogEvents".
 
 7. Get Log Events  
-This command allows you to get log events from a log stream in Cloudwatch. You must have IAM permission: "logs:GetLogEvents".  
+This command allows you to get log events from a log stream in Cloudwatch. You must have IAM permission: "logs:GetLogEvents".
+
+8. Get log streams  
+Retrieves a list of log streams for a group in CloudWatch Logs. Allows filtering results by a log stream prefix. Requires IAM permission: "logs:DescribeLogStreams".  
 
 
 

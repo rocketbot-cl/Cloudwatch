@@ -37,7 +37,10 @@ Este comando permite eliminar un flujo de log en Cloudwatch. Debes contar con el
 Este comando permite cargar eventos de log en un flujo de log en Cloudwatch. Debe tener permiso de IAM: "logs:PutLogEvents".
 
 7. Obtener Eventos de Log  
-Este comando permite obtener eventos de un flujo de log en Cloudwatch. Debe tener permiso IAM: "logs:GetLogEvents".  
+Este comando permite obtener eventos de un flujo de log en Cloudwatch. Debe tener permiso IAM: "logs:GetLogEvents".
+
+8. Obtener flujos de registro  
+Recupera una lista de flujos de registro para un grupo  in CloudWatch Logs. Permite filtrar los resultados por un prefijo de flujo de registro. Requiere permiso IAM: "logs:DescribeLogStreams".  
 
 
 
